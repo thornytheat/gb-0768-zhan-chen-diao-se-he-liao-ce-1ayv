@@ -32,7 +32,12 @@ def eligible(rows, job):
         options.sort(key=lambda row:(row['received_utc'],row['line']))
         distinct={tuple(row['data'][k] for k in ('pot','container','action','lot','gross','unit'))+(row['at'],) for row in options}
         if len(distinct)>1:
-            rejected.extend(row | {'code':'TICKET_CONFLICT'} for row in options)
+            if all(row['data']['action']=='WASH' for row in options):
+                # 同号洗罐票办不同换色：只入册最早收件的一笔，损耗不重复计。
+                accepted.append(options[0])
+                rejected.extend(row | {'code':'WASH_CONFLICT'} for row in options[1:])
+            else:
+                rejected.extend(row | {'code':'TICKET_CONFLICT'} for row in options)
         else:
             accepted.append(options[0])
             rejected.extend(row | {'code':'TICKET_DUPLICATE'} for row in options[1:])

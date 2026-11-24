@@ -2,8 +2,8 @@ from collections import Counter, defaultdict
 
 from app.blend.claims import declared
 
-FLOW={'OPEN':'opening_mg','ISSUE':'issued_mg','APPLY':'applied_mg','LOSS':'loss_mg','RETURN':'returned_mg'}
-MASS_FIELDS=(*FLOW.values(),'disputed_mg')
+FLOW={'OPEN':'opening_mg','ISSUE':'issued_mg','WASH':'loss_mg','APPLY':'applied_mg','LOSS':'loss_mg','RETURN':'returned_mg'}
+MASS_FIELDS=(*dict.fromkeys(FLOW.values()),'disputed_mg')
 
 
 def settle(blend, notes):

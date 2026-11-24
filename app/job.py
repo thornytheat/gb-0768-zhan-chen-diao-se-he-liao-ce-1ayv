@@ -1,13 +1,14 @@
 from functools import cached_property
 
 from app.blend.balance import settle
+from app.blend.changeover import approve
 from app.blend.lots import identify
 from app.blend.replay import rebuild
 from app.receipts.packet import parse_packet
 from app.receipts.tare import weigh
 from app.receipts.tickets import eligible
 
-VIEWS=('weighings','tares','lots','recovery','balance')
+VIEWS=('weighings','tares','lots','recovery','balance','changeover')
 
 
 class MixingJob:
@@ -38,6 +39,12 @@ class MixingJob:
     @cached_property
     def balance(self):
         return settle(self.recovery,self.data['claims'][0])
+
+    @cached_property
+    def changeover(self):
+        stages=(self.weighings['isolated'],self.tares['isolated'],self.lots['isolated'],self.recovery['isolated'])
+        failed=[row for stage in stages for row in stage if row['data'].get('action')=='WASH']
+        return approve(self.recovery['rows'],failed)
 
     def snapshot(self):
         return {stage:getattr(self,stage) for stage in VIEWS}

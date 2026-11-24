@@ -13,4 +13,7 @@ REASONS = {
     'LOT_UNKNOWN':'颜料别名未登记', 'LOT_CONFLICT':'别名关联多个批号', 'MIXED_OUTPUT':'混料动作不得指定单一批号',
     'OVERDRAW':'净重超过罐内存量', 'CLAIM_CONFLICT':'同批申报值冲突', 'NO_CLAIM':'无回桶申报',
     'MISMATCH':'回桶差异', 'MATCH':'账实一致', 'ACCEPTED':'已采信',
+    'WASH_CONFLICT':'同号洗罐票换色冲突', 'VERIFIED':'洗净核准', 'SHORTFALL':'差额待复秤',
+    'CLEARED':'差额复秤结清', 'CONFIRMED':'复秤证实洗净',
+    'RELEASED':'放行', 'HELD':'暂不放行', 'TAINTED':'串色异常',
 }
